@@ -1,0 +1,6 @@
+mne
+numpy
+pandas
+scikit-learn
+numba
+moabb
