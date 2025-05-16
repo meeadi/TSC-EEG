@@ -2,6 +2,19 @@
 
 # Accuracy is low due to the small dataset size and the nature of the data. Plus we're running the training on the run '0' for the first subject only.
 
+# Complete Procedure:
+# 1. Importing libraries and loading dataset (MOABB to fetch dataset, MNE for EEG data handling, MiniROCKET for TS feature extraction)
+# 2. Using Subject '1' as starting point and accessing Run '0' for training which contains EEG signals for motor imagery tasks.
+# 3. Extracting events and labels from the raw EEG data, MNE extracts events and numerically mapped to event dictionary.
+# 4. Creating epochs since EEG data is continuous and we need to break it into segments for classification. 2s Trials and each event.
+# 5. Extracting Features (X : EEG Data in trial format) and Labels (y: Event labels for each trial)
+# 6. Train-Test Split using train_test_split from sklearn.model_selection (80-20 Split)
+# 7. Applying MiniROCKET: Transforms TS into higher-dimensional space (feature vectors) using convolutional kernels, further used for classification.
+# 8. RidgeClassifierCV: A linear classifier with L2 regularization, used for classification tasks. It uses cross-validation to find the best alpha value.
+# 9. Predictions and Evaluations using accuracy_score and classification_report from sklearn.metrics.
+
+# Train-Test split was only used for Final Evaluation, RidgeClassifierCV uses cross-validation internally to find the best alpha value.
+
 import numpy as np 
 from sktime.transformations.panel.rocket import MiniRocket
 from sklearn.linear_model import RidgeClassifierCV
@@ -9,6 +22,9 @@ from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import train_test_split
 import mne
 from moabb.datasets import BNCI2014_001 # Key for BCI IV Dataset 2a
+
+import warnings
+warnings.filterwarnings("ignore")
 
 # loading the data
 
@@ -51,7 +67,7 @@ print(f"Transformed X Train Shape: {TransformedXTrain.shape}")
 
 # ridge classifier baseline model
 
-clf = RidgeClassifierCV(alphas=np.logspace(-3, 3, 10), store_cv_values=True)
+clf = RidgeClassifierCV(alphas=np.logspace(-3, 3, 10), store_cv_values=True) # Using cross-validation internally for optimal alpha value.
 clf.fit(TransformedXTrain, yTrain)
 
 # predictions and evaluations 
