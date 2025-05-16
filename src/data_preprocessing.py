@@ -15,6 +15,11 @@
 
 # Train-Test split was only used for Final Evaluation, RidgeClassifierCV uses cross-validation internally to find the best alpha value.
 
+# Ibram's Scope for the First Presentation: 
+
+# BASELINE ASSESSMENT OF ROCKET MODEL, 2-3 DATASETS READY WITH ROCKET MODEL, COMPARISON WITH SOME OF THE ALREADY ESTABLISHED EEG MODELS, INFO REPRODUCTION OF SOME OF THE RESULTS LATER WHILE COMPARING WITH OTHER MODELS AND METHODS, CLEARER DOCUMENTATION
+ 
+
 import numpy as np 
 from sktime.transformations.panel.rocket import MiniRocket
 from sklearn.linear_model import RidgeClassifierCV
